@@ -24,6 +24,7 @@ allKeys.forEach((key) => {
   key.addEventListener("mousedown", (e) => {
     let note = e.target.dataset.note;
     polySynth.triggerAttack(note + octave);
+    key.style.backgroundColor = "pink"; // change color on press
   });
   key.addEventListener("mouseup", (e) => {
     let note = e.target.dataset.note;
