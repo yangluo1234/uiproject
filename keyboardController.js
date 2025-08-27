@@ -30,6 +30,7 @@ allKeys.forEach((key) => {
   key.addEventListener("mouseup", (e) => {
     let note = e.target.dataset.note;
     polySynth.triggerRelease(note + octave);
+    key.style.backgroundColor = "var(--col01)"; // revert color on release
   });
   key.addEventListener("mouseevent", (e) => {
     if (mouseHeld === false) {

@@ -2,7 +2,11 @@
 ///////// Global definitions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let testRange = document.getElementById("frequencySlider");
+//let testRange = document.getElementById("frequencySlider");
+
+const delayFeedbackSlider = document.getElementById("delayFeedbackInput");
+
+const volumeFeebackDisplay = document.getElementById("volumeFeedback");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////// Intro Modal popup
@@ -89,8 +93,8 @@ function changeDistortionAmount(newDistAmt) {
   }
 }
 
-function toggleDistortion(distortionOn){
-  if(distortionOn){
+function toggleDistortion(distortionOn) {
+  if (distortionOn) {
     distortion.wet.value = 1;
   } else {
     distortion.wet.value = 0;
@@ -109,8 +113,8 @@ function changeReverbDecay(newVerbDecayAmt) {
   reverb.set({ decay: newVerbDecayAmt });
 }
 
-function toggleReverb(verbOn){
-  if(verbOn){
+function toggleReverb(verbOn) {
+  if (verbOn) {
     reverb.wet.value = 1;
   } else {
     reverb.wet.value = 0;
@@ -150,10 +154,39 @@ function changeFilterQ(newFilterQ) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////// Delay Functions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function changeDelayFeedback(newFeedbackAmt) {
+  delay.feedback.value = newFeedbackAmt;
+}
+
+delayFeedbackSlider.addEventListener("change", (e) => {
+  let inputValue = e.target.value;
+  changeDelayFeedback(inputValue);
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////// Meter Feedback
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function findCurrentVolume() {
+  let currentVolume = meter.getValue();
+  let clampedValue = clamp(currentVolume, -80, 0);
+  let remappedValue = remapRange(clampedValue, -80, 0, 0, 1);
+  volumeFeebackDisplay.textContent = remappedValue;
+  console.log(clampedValue);
+  document.body.style.backgroundColor = `color-mix(in hsl,red, blue ${remappedValue}%)`;
+}
+setInterval(findCurrentVolume, 200);
+
+//volumeFeebackDisplay
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////// Connections
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-testRange.addEventListener("input", (e) => {
-  let rangeValue = e.target.value;
-  changeFilterFreq(rangeValue);
-});
+// testRange.addEventListener("input", (e) => {
+//   let rangeValue = e.target.value;
+//   changeFilterFreq(rangeValue);
+// });
